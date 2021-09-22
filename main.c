@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <sys/time.h>
+#include <math.h>
 
 
 double microsegundos() { /* obtiene la hora del sistema en microsegundos */
@@ -108,7 +109,7 @@ void test_propio(){
 }
 void test_recursivo_n(){
     int v[32000],c[7]={500,1000,2000,4000,8000,16000,32000},i,j,var,z,w;
-    double a,b,d;
+    double a,b,d,f_c;
     for(j=0;j<6;j++) {
         for (i = 0; i < 7; i++) {
             if(c[i]>510) {
@@ -119,7 +120,8 @@ void test_recursivo_n(){
                 var = sumaSubMax1(v, c[i]);
                 b = microsegundos();
                 //printf("%f\t", b = microsegundos());
-                printf("%f\n", b - a);
+                f_c=1.0*c[i];
+                printf("%f\t%f\t%f\t%f\n", b - a, (b-a)/pow(f_c,1.8), (b-a)/pow(f_c,2), (b-a)/pow(f_c,2.2));
             }
             else{
                 printf("sec %d %d\t", j, c[i]);
@@ -136,8 +138,9 @@ void test_recursivo_n(){
                     aleatorio(v,c[i]);
                 }
                 b=microsegundos();
-                d=d-a+b;
-                printf("%f \n ", d/100);
+                d=(d-a+b)/100;
+                f_c=1.0*c[i];
+                printf("%f\t%f\t%f\t%f\n", d, d/pow(f_c,1.8), d/pow(f_c,2), d/pow(f_c,2.2));
             }
         }
     }
