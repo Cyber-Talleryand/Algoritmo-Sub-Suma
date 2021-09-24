@@ -103,39 +103,39 @@ void test_propio(){
 
 
 void test_recursivo_n1(){
-    int *v,c[7]={500,1000,2000,4000,8000,16000,32000},i,j;
+    int *v,c[7]={500,1000,2000,4000,8000,16000,32000},i;
     double a,b,f_c,d;
     printf("\n\n%8s%8s%8s%16s%16s%16s\n\n", "n", "", "t(n)", "t(n)/n^1.8", "t(n)/n^2", "t(n)/n^2.2");
     for (i = 0; i < 7; i++) {
         v=malloc(c[i]*sizeof(int));
-        printf("sec %d %d\t", j, c[i]);
+        printf("sec %d\t", c[i]);
         aleatorio(v, c[i]);
         a = microsegundos();
         sumaSubMax1(v, c[i]);
         b = microsegundos();
         if(b-a>500.0) {
-                f_c=1.0*c[i];
-                printf("%f\t%f\t%f\t%f\n", b - a, (b-a)/pow(f_c,1.8), (b-a)/pow(f_c,2), (b-a)/pow(f_c,2.2));
-            }
-            else {
-                a = microsegundos();
-                for (int z = 0; z <= 100; z++) {
-                    aleatorio(v, c[i]);
-                    sumaSubMax1(v, c[i]);
-                }
-                b = microsegundos();
-                d = (b - a) / 100;
-                f_c = 1.0 * c[i];
-                printf("%f\t%f\t%f\t%f\n", d, d / pow(f_c, 1.8), d / pow(f_c, 2), d / pow(f_c, 2.2));
-            }
+            f_c=1.0*c[i];
+            printf("%f\t%f\t%f\t%f\n", b - a, (b-a)/pow(f_c,1.8), (b-a)/pow(f_c,2), (b-a)/pow(f_c,2.2));
         }
+        else {
+            a = microsegundos();
+            for (int z = 0; z <= 100; z++) {
+                aleatorio(v, c[i]);
+                sumaSubMax1(v, c[i]);
+            }
+            b = microsegundos();
+            d = (b - a) / 100;
+            f_c = 1.0 * c[i];
+            printf("%f\t%f\t%f\t%f\n", d, d / pow(f_c, 1.8), d / pow(f_c, 2), d / pow(f_c, 2.2));
+        }
+    }
     free(v);
 }
 
 void test_recursivo_n2(){
-    int *v,c[7]={500,1000,2000,4000,8000,16000,32000},i,j;
+    int *v,c[7]={500,1000,2000,4000,8000,16000,32000},i;
     double a,b,f_c,d;
-    printf("\n\n%8s%16s%16s%16s%16s\n\n", "n", "t(n)", "t(n)/n*0.8", "t(n)/n", "t(n)/n*1.2");
+    printf("\n\n%8s%16s%16s%16s%16s\n\n", "n", "t(n)", "t(n)/(n*log(n)*0.8)", "t(n)/n", "t(n)/(n*log(n)*1.2)");
     for (i = 0; i < 7; i++) {
         v= malloc(c[i]* sizeof(int));
         printf("sec %d %s\t", c[i], "(*)");
@@ -147,7 +147,7 @@ void test_recursivo_n2(){
         b = microsegundos();
         f_c=1.0*c[i];
         d=(b-a)/100;
-        printf("%f\t%f\t%f\t%f\n", d, d/(f_c*0.8), d/(f_c*1), d/(f_c*1.2));
+        printf("%f\t%f\t%f\t%f\n", d, d/(f_c*log(f_c)*0.8), d/log((f_c*1)), d/(1.2*f_c*log(f_c)));
     }
     free(v);
 }
