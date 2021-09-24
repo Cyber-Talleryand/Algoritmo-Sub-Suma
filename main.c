@@ -6,7 +6,6 @@
 #include <sys/time.h>
 
 
-
 double microsegundos() { /* obtiene la hora del sistema en microsegundos */
     struct timeval t;
     if (gettimeofday(&t, NULL) < 0 )
@@ -91,75 +90,78 @@ void test2(){
 
 void test_propio(){
     int x, y,k,v[30]={-9,2,-5,-4,6,4,0,9,2,5,-2,-1,-9,-7,-1,9,-2,1,-7,-8,15,-2,-5,-4,16,7,-5,6,7,-7};
-    printf("\ntest propio\n");
-    printf("%30s%15s%15s\n", "", "sumaSubMax1", "sumaSubMax2");
-        k= sizeof(v)/ sizeof(int);
-        listar_vector(v,k);
-        x = sumaSubMax1(v,k);
-        y = sumaSubMax2(v,k);
-        printf("%15d%15d\n", x, y);
+    printf("\ntest propio\n\n");
 
-    }
+    k= sizeof(v)/ sizeof(int);
+    listar_vector(v,k);
+    printf("\n\n%15s%15s\n", "sumaSubMax1", "sumaSubMax2");
+    x = sumaSubMax1(v,k);
+    y = sumaSubMax2(v,k);
+    printf("%10d%10d\n", x, y);
+
+}
 
 
 void test_recursivo_n1(){
-    int v[32000],c[7]={500,1000,2000,4000,8000,16000,32000},i,j;
+    int *v,c[7]={500,1000,2000,4000,8000,16000,32000},i,j;
     double a,b,f_c,d;
     printf("\n\n%8s%8s%8s%16s%16s%16s\n\n", "n", "", "t(n)", "t(n)/n^1.8", "t(n)/n^2", "t(n)/n^2.2");
     for(j=0;j<6;j++) {
         for (i = 0; i < 7; i++) {
-            if(c[i]>510) {
-                printf("sec %d %d\t", j, c[i]);
-                aleatorio(v, c[i]);
-                a = microsegundos();
-                //printf("%f\t", a = microsegundos());
-                sumaSubMax1(v, c[i]);
-                b = microsegundos();
-                //printf("%f\t", b = microsegundos());
+            v=malloc(c[i]*sizeof(int));
+            printf("sec %d %d\t", j, c[i]);
+            aleatorio(v, c[i]);
+            a = microsegundos();
+            sumaSubMax1(v, c[i]);
+            b = microsegundos();
+            if(b-a>500.0) {
                 f_c=1.0*c[i];
                 printf("%f\t%f\t%f\t%f\n", b - a, (b-a)/pow(f_c,1.8), (b-a)/pow(f_c,2), (b-a)/pow(f_c,2.2));
-            }           
-            else{
-                printf("sec %d %s\t", c[i], "(*)");
+            }
+            else {
                 a = microsegundos();
-                //printf("%f\t", a = microsegundos());
-                for (int z = 0; z < w; z++) {
-                    aleatorio(v,c[i]);
+                for (int z = 0; z <= 100; z++) {
+                    aleatorio(v, c[i]);
                     sumaSubMax1(v, c[i]);
                 }
                 b = microsegundos();
-                d=(b-a)/w;
-                f_c=1.0*c[i];
-                printf("%f\t%f\t%f\t%f\n", d, d/pow(f_c,1.8), d/pow(f_c,2), d/pow(f_c,2.2));
+                d = (b - a) / 100;
+                f_c = 1.0 * c[i];
+                printf("%f\t%f\t%f\t%f\n", d, d / pow(f_c, 1.8), d / pow(f_c, 2), d / pow(f_c, 2.2));
             }
         }
     }
+    free(v);
 }
 
 void test_recursivo_n2(){
-    int v[32000],c[7]={500,1000,2000,4000,8000,16000,32000},i,j;
+    int *v,c[7]={500,1000,2000,4000,8000,16000,32000},i,j;
     double a,b,f_c,d;
     printf("\n\n%8s%16s%16s%16s%16s\n\n", "n", "t(n)", "t(n)/n^0.8", "t(n)/n^1", "t(n)/n^1.2");
     for(j=0;j<6;j++) {
-        for (i = 0; i < 7; i++) { 
-                printf("sec %d %s\t", c[i], "(*)");
-                a = microsegundos();
-                //printf("%f\t", a = microsegundos());
-                for (int z = 0; z < w; z++) {
-                    sumaSubMax2(v, c[i]);
-                }
-                b = microsegundos();
-                f_c=1.0*c[i];
-                d=(b-a)/w;
-                printf("%f\t%f\t%f\t%f\n", d, d/pow(f_c,0.8), d/pow(f_c,1), d/pow(f_c,1.2));
+        for (i = 0; i < 7; i++) {
+            v= malloc(c[i]* sizeof(int));
+            printf("sec %d %s\t", c[i], "(*)");
+            a = microsegundos();
+            //printf("%f\t", a = microsegundos());
+            for (int z = 0; z < 100; z++) {
+                sumaSubMax2(v, c[i]);
+            }
+            b = microsegundos();
+            f_c=1.0*c[i];
+            d=(b-a)/100;
+            printf("%f\t%f\t%f\t%f\n", d, d/pow(f_c,0.8), d/pow(f_c,1), d/pow(f_c,1.2));
         }
     }
+    free(v);
 }
 
 int main(){
 
     inicializar_semilla();
-    //test_propio();
+    test1();
+    test2();
+    test_propio();
     test_recursivo_n1();
     test_recursivo_n2();
 
