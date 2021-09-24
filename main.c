@@ -162,7 +162,7 @@ int main(){
     test1();
     test2();
     test_propio();
-    //test_recursivo_n1();
+    test_recursivo_n1();
     test_recursivo_n2();
 
     return 0;
