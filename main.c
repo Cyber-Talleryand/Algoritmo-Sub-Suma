@@ -5,7 +5,6 @@
 #include <math.h>
 #include <sys/time.h>
 
-#define w 100
 
 
 double microsegundos() { /* obtiene la hora del sistema en microsegundos */
