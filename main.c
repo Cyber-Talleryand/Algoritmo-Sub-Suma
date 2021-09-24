@@ -137,7 +137,7 @@ void test_recursivo_n1(){
 void test_recursivo_n2(){
     int *v,c[7]={500,1000,2000,4000,8000,16000,32000},i,j;
     double a,b,f_c,d;
-    printf("\n\n%8s%16s%16s%16s%16s\n\n", "n", "t(n)", "t(n)/n^0.8", "t(n)/n^1", "t(n)/n^1.2");
+    printf("\n\n%8s%16s%16s%16s%16s\n\n", "n", "t(n)", "t(n)/n*0.8", "t(n)/n", "t(n)/n*1.2");
     for(j=0;j<6;j++) {
         for (i = 0; i < 7; i++) {
             v= malloc(c[i]* sizeof(int));
@@ -150,7 +150,7 @@ void test_recursivo_n2(){
             b = microsegundos();
             f_c=1.0*c[i];
             d=(b-a)/100;
-            printf("%f\t%f\t%f\t%f\n", d, d/pow(f_c,0.8), d/pow(f_c,1), d/pow(f_c,1.2));
+            printf("%f\t%f\t%f\t%f\n", d, d/(f_c*0.8), d/(f_c*1), d/(f_c*1.2));
         }
     }
     free(v);
@@ -162,7 +162,7 @@ int main(){
     test1();
     test2();
     test_propio();
-    test_recursivo_n1();
+    //test_recursivo_n1();
     test_recursivo_n2();
 
     return 0;
